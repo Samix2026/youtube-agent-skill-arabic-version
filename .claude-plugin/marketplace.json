@@ -1,0 +1,15 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "youtube-agent-skill-arabic-version",
+  "description": "The YouTube agent skill pack for Claude, Arabic version",
+  "owner": { "name": "Sami Al Mohaimeed", "url": "https://samibizconsult.com" },
+  "plugins": [
+    {
+      "name": "youtube-agent-ar",
+      "description": "مهارات Claude لصناعة محتوى يوتيوب عربي، مع أدوات تقرأ العربية فعلا: مقياس افتتاحية، فاحص عنوان وغلاف، قائمة قص، فصول، وقارئ احتفاظ.",
+      "source": "./",
+      "category": "productivity",
+      "homepage": "https://github.com/Samix2026/youtube-agent-skill-arabic-version"
+    }
+  ]
+}
