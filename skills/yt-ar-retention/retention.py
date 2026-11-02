@@ -43,14 +43,20 @@ def load_csv(path):
     return rows, header
 
 
-def detect_axis(xs, header, forced):
+def detect_axis(xs, header, forced, dur=None):
+    """--axis wins; then the header; then the duration (a seconds axis ends near the duration, a
+    percent axis ends near 100); then the old max<=100 rule."""
     if forced:
         return forced.startswith("p")
-    if "%" in header.split(",")[0] or "percent" in header or "نسبة" in header:
+    first = header.split(",")[0]
+    if "%" in first or "percent" in header or "نسبة" in header:
         return True
     if "second" in header or "ثاني" in header or "time" in header:
         return False
-    return max(xs) <= 100.5
+    top = max(xs)
+    if dur and dur < 99 and abs(top - dur) <= max(1.0, 0.03 * dur):
+        return False
+    return top <= 100.5
 
 
 def main():
@@ -70,8 +76,8 @@ def main():
         sys.exit(1)
     xs = [r[0] for r in rows]
     ys = [r[1] for r in rows]
-    pct_axis = detect_axis(xs, header, axis)
     dur = float(dur_s) if dur_s else None
+    pct_axis = detect_axis(xs, header, axis, dur)
 
     def at(x):
         return (x / 100.0 * dur) if (pct_axis and dur) else (x if not pct_axis else None)

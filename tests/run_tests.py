@@ -118,5 +118,14 @@ froms = sorted(x["from"] for x in t["cliffs"])
 check("both mid-video cliffs found (40% and 75%)", 39 <= froms[0] <= 40 and 74 <= froms[-1] <= 75, froms)
 check("cliff names what was said there", all(t["said"].get(str(x["from"])) for x in t["cliffs"]))
 
+import tempfile
+with tempfile.NamedTemporaryFile("w", suffix=".csv", delete=False) as fh:
+    fh.write("\n".join(f"{x},{100 - x * 0.8 - (12 if x >= 30 else 0)}" for x in range(0, 58, 3)))
+    short = fh.name
+s = run("yt-ar-retention/retention.py", short, "--duration", "57")
+check("a 57s Short exported in seconds, no header, is read as seconds", s["axis"] == "seconds", s["axis"])
+check("its hook leak covers the first 30 seconds (36, not 7)", abs(s["hook_leak"] - 36) < 0.5, s["hook_leak"])
+os.unlink(short)
+
 print(f"\n{len(FAILS)} failed" if FAILS else "\nall passed")
 sys.exit(len(FAILS))

@@ -16,6 +16,8 @@ Jake Schincariol. الفكرة والمنهج له، والحقوق محفوظة
 
 **لا شيء ينشر قبل أن تنشره أنت.** المهارات تكتب، وأنت ترفع.
 
+[English summary](#english)
+
 ## التثبيت
 
 الصق هذا في Claude Code:
@@ -75,15 +77,17 @@ python3 skills/yt-ar-retention/retention.py retention.csv --duration 600
 python3 tests/run_tests.py
 ```
 
-ستة وثلاثون فحصا: توحيد الكتابة، وقياس 30 افتتاحية بين مكتوبة بعناية وأخرى تبدأ بالسلام والترحيب،
+ثمانية وثلاثون فحصا: توحيد الكتابة، وقياس 30 افتتاحية بين مكتوبة بعناية وأخرى تبدأ بالسلام والترحيب،
 وكشف التكرار بين العنوان والغلاف عبر أل التعريف، والحشو الممطوط مثل اممممم، والإعادة التي بينها يعني،
-وصلاحية الفصول، وسقوط الاحتفاظ في المنتصف.
+وصلاحية الفصول، وسقوط الاحتفاظ في المنتصف، وقراءة ملف شورتس مصدر بالثواني.
 
 ## ما الذي تغير عن الأصل، غير اللغة
 
-- **حساب المدة المحذوفة في قائمة القص**: الأصل يجمع القصات المتداخلة مرتين. هنا تحسب مرة واحدة.
-- **محور ملف الاحتفاظ**: الأصل يخمن هل المحور نسبة أم ثوان من أكبر قيمة، فيخطئ مع أي فيديو أقصر من
-  100 ثانية. هنا يقرأ رأس العمود، ويقبل `--axis`.
+- **محور ملف الاحتفاظ**: الأصل يعتبر المحور نسبة كلما كانت أكبر قيمة 100 أو أقل، فيخطئ مع أي ملف مصدر
+  بالثواني لفيديو أقصر من 100 ثانية، وهذا يعني أغلب الشورتس. هنا يقرأ رأس العمود، ويستدل من
+  `--duration`، ويقبل `--axis`.
+- **حساب المدة المحذوفة في قائمة القص**: إذا تداخلت توقيتات التفريغ، الأصل يحسب الجزء المتداخل مرتين.
+  هنا يحسب مرة واحدة.
 - **السقوط الحاد**: الأصل يدخل هبوط الافتتاحية في قائمة السقوط فيزاحم السقوط الحقيقي في المنتصف. هنا
   يحسب بعد نافذة الافتتاحية، لأن الافتتاحية لها بندها.
 - **كلمات الغلاف**: الأصل يقول السقف ثلاث كلمات ويفحص أربعا. هنا ثلاث.
@@ -121,5 +125,31 @@ python3 tests/run_tests.py
 ## الترخيص
 
 MIT. استخدمه، عدله، انشره. مع الإبقاء على إشعار حقوق المؤلف الأصلي.
+
+</div>
+
+<div dir="ltr">
+
+## English
+
+An Arabic version of [youtube-agent-skill](https://github.com/Jakeschincariol/youtube-agent-skill) by
+Jake Schincariol: Claude skills for making YouTube videos, with Python tools that actually read Arabic.
+
+The original tools tokenise with `[a-z]`, so Arabic text comes out as zero words and every score is
+meaningless, with no error. This version rebuilds the language layer: normalisation (diacritics,
+hamza forms, ta marbuta, Arabic-Indic digits), clitic and article stripping, dialect lexicons (MSA and
+Gulf, with Egyptian and Levantine starters) for filler, address, stakes and curiosity, and the 21 hook
+formulas rewritten for Arabic audiences.
+
+Six skills (`/yt-ar-script`, `/yt-ar-package`, `/yt-ar-edit`, `/yt-ar-chapters`, `/yt-ar-retention`,
+`/yt-ar-seo`), five dependency-free tools, 38 tests (`python3 tests/run_tests.py`). Install:
+
+```bash
+git clone https://github.com/Samix2026/youtube-agent-skill-arabic-version.git
+cp -r youtube-agent-skill-arabic-version/skills/yt-ar-* ~/.claude/skills/
+```
+
+The Arabic hook scorer is a heuristic, tuned on a 30-hook test set, not calibrated against real view
+data. MIT, original copyright kept.
 
 </div>
